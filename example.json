@@ -1,0 +1,48 @@
+{
+	"logging": {
+		"logs": {
+			"default": {
+				"level": "DEBUG"
+			}
+		}
+	},
+	"apps": {
+		"http": {
+			"servers": {
+				"example": {
+					"listen": [":80"],
+					"routes": [
+						{
+							"handle": [
+								{
+									"handler": "request_body",
+									"max_size": 10485760
+								},
+								{
+									"handler": "form2json"
+								},
+								{
+									"handler": "reverse_proxy",
+									"upstreams": [{"dial": "localhost:9983"}]
+								}
+							]
+						}
+					]
+				},
+				"backend": {
+					"listen": ["localhost:9983"],
+					"routes": [
+						{
+							"handle": [
+								{
+									"handler": "static_response",
+									"body": "Body: {http.request.body}"
+								}
+							]
+						}
+					]
+				}
+			}
+		}
+	}
+}
