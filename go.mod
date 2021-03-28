@@ -1,4 +1,4 @@
-module github.com/appcove/caddy_post_json
+module github.com/appcove/caddy-post2json
 
 go 1.15
 
